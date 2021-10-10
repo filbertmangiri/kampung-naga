@@ -23,26 +23,30 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 
 CREATE TABLE IF NOT EXISTS `articles` (
 	`id` INTEGER UNSIGNED AUTO_INCREMENT,
-	`title` VARCHAR(128),
+	`title` VARCHAR(255),
+	`title_slug` VARCHAR(255),
+	`category` VARCHAR(255),
+	`category_slug` VARCHAR(255),
+	`thumbnail` VARCHAR(255),
 	`author_id` INTEGER UNSIGNED,
+	`content` LONGTEXT,
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`author_id`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `articles_likes` (
+CREATE TABLE IF NOT EXISTS `article_likes` (
 	`id` INTEGER UNSIGNED AUTO_INCREMENT,
 	`account_id` INTEGER UNSIGNED,
 	`article_id` INTEGER UNSIGNED,
-	`body` LONGTEXT,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `pk_article_like` UNIQUE (`account_id`, `article_id`),
 	FOREIGN KEY (`account_id`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `articles_comments` (
+CREATE TABLE IF NOT EXISTS `article_comment` (
 	`id` INTEGER UNSIGNED AUTO_INCREMENT,
 	`account_id` INTEGER UNSIGNED,
 	`article_id` INTEGER UNSIGNED,
@@ -55,14 +59,14 @@ CREATE TABLE IF NOT EXISTS `articles_comments` (
 	FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `comments_likes` (
+CREATE TABLE IF NOT EXISTS `article_comment_likes` (
 	`id` INTEGER UNSIGNED AUTO_INCREMENT,
 	`account_id` INTEGER UNSIGNED,
 	`comment_id` INTEGER UNSIGNED,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `pk_comment_like` UNIQUE (`account_id`, `comment_id`),
 	FOREIGN KEY (`account_id`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`comment_id`) REFERENCES `articles_comments`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`comment_id`) REFERENCES `article_comment`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `admin_log` (

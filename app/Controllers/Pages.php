@@ -8,11 +8,7 @@ class Pages extends BaseController
 {
 	public function index()
 	{
-		$data = [
-			'title' => 'Beranda'
-		];
-
-		return view('pages/home', $data);
+		return redirect()->to(base_url('article'));
 	}
 
 	public function about()

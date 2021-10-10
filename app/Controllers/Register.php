@@ -14,6 +14,11 @@ class Register extends BaseController
 		$this->accountModel = new AccountModel();
 	}
 
+	public function __destruct()
+	{
+		unset($this->accountModel);
+	}
+
 	public function index()
 	{
 		$data = [
