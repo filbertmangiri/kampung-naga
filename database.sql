@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS `articles` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `article_likes` (
-	`id` INTEGER UNSIGNED AUTO_INCREMENT,
+	-- `id` INTEGER UNSIGNED AUTO_INCREMENT,
 	`account_id` INTEGER UNSIGNED,
 	`article_id` INTEGER UNSIGNED,
-	PRIMARY KEY (`id`),
-	CONSTRAINT `pk_article_like` UNIQUE (`account_id`, `article_id`),
+	-- PRIMARY KEY (`id`),
+	CONSTRAINT `pk_article_like` PRIMARY KEY (`account_id`, `article_id`),
 	FOREIGN KEY (`account_id`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -60,11 +60,11 @@ CREATE TABLE IF NOT EXISTS `article_comment` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `article_comment_likes` (
-	`id` INTEGER UNSIGNED AUTO_INCREMENT,
+	-- `id` INTEGER UNSIGNED AUTO_INCREMENT,
 	`account_id` INTEGER UNSIGNED,
 	`comment_id` INTEGER UNSIGNED,
-	PRIMARY KEY (`id`),
-	CONSTRAINT `pk_comment_like` UNIQUE (`account_id`, `comment_id`),
+	-- PRIMARY KEY (`id`),
+	CONSTRAINT `pk_comment_like` PRIMARY KEY (`account_id`, `comment_id`),
 	FOREIGN KEY (`account_id`) REFERENCES `accounts`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`comment_id`) REFERENCES `article_comment`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB;

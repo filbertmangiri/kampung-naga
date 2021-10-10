@@ -40,12 +40,6 @@ class ArticleModel extends Model
 			return $this->findAll();
 		}
 
-		// $db = \Config\Database::connect();
-		// return $db
-		// 	->table('articles')->select('title', 'title_slug', 'category', 'category_slug', 'author_id', 'thumbnail', 'content')
-		// 	->where('title_slug', $titleSlug)
-		// 	->get();
-
 		return $this->where('title_slug', $titleSlug)->first();
 	}
 }

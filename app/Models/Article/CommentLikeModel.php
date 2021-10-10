@@ -4,10 +4,10 @@ namespace App\Models\Article;
 
 use CodeIgniter\Model;
 
-class LikeModel extends Model
+class CommentLikeModel extends Model
 {
-	protected $table      = 'article_likes';
-	protected $primaryKey = 'pk_article_like';
+	protected $table      = 'article_comment_likes';
+	protected $primaryKey = 'pk_comment_like';
 
 	// protected $useAutoIncrement = true;
 
@@ -15,7 +15,7 @@ class LikeModel extends Model
 
 	protected $allowedFields = [
 		'account_id',
-		'article_id'
+		'comment_id'
 	];
 
 	protected $useTimestamps = false;

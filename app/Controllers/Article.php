@@ -3,7 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+
 use App\Models\Article\ArticleModel;
+use App\Models\Article\LikeModel;
+use App\Models\Article\CommentModel;
+use App\Models\Article\CommentLikeModel;
 
 class Article extends BaseController
 {

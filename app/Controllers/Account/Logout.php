@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Account;
 
 use App\Controllers\BaseController;
 
