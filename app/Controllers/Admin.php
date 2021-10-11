@@ -8,6 +8,15 @@ use App\Models\Article\ArticleModel;
 
 class Admin extends BaseController
 {
+	protected $articleModel;
+	protected $categoryModel;
+
+	public function __construct()
+	{
+		$this->articleModel = new ArticleModel();
+		$this->categoryModel = new CategoryModel();
+	}
+
 	public function index()
 	{
 		$session = \Config\Services::session();
@@ -18,7 +27,7 @@ class Admin extends BaseController
 
 		$data = [
 			'title' => 'Admin',
-			'articles' => (new ArticleModel())->articleGet()
+			'articles' => $this->articleModel->articleGet()
 		];
 
 		return view('admin/index', $data);
@@ -27,7 +36,7 @@ class Admin extends BaseController
 	public function insert()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$error_message = (new ArticleModel())->articleInsert($this->request->getVar());
+			$error_message = $this->articleModel->articleInsert($_POST, $_FILES);
 
 			if (empty($error_message)) {
 				return redirect()->to(base_url('admin'));
@@ -38,39 +47,52 @@ class Admin extends BaseController
 
 		$data = [
 			'title' => 'Admin | Insert',
-			'categories' => (new CategoryModel())->categoryGetAll()
+			'categories' => $this->categoryModel->categoryGetAll()
 		];
 
 		return view('admin/insert', $data);
 	}
 
-	public function edit($titleSlug = '')
+	public function edit($articleID = -1)
 	{
+		if ($articleID === -1) {
+			return redirect()->to(base_url('admin/edit'));
+		}
+
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$error_message = (new ArticleModel())->articleEdit($this->request->getVar());
+			$error_message = $this->articleModel->articleEdit($articleID, $_POST);
 
 			if (empty($error_message)) {
 				return redirect()->to(base_url('admin'));
 			}
 
-			return redirect()->to(base_url('admin/insert'));
-		}
-
-		if (empty($titleSlug)) {
-			return redirect()->to(base_url());
+			return redirect()->to(base_url('admin/edit'));
 		}
 
 		$data = [
-			'title' => 'Admin | Edit'
+			'title' => 'Admin | Edit',
+			'article' => $this->articleModel->articleGetByID($articleID),
+			'categories' => $this->categoryModel->categoryGetAll()
 		];
 
 		return view('admin/edit', $data);
 	}
 
-	public function delete($titleSlug = '')
+	public function delete($id)
 	{
-		if (empty($titleSlug)) {
-			return redirect()->to(base_url());
+		$delete = $this->article->deleteArticle($id);
+
+		if ($delete) {
+			session()->setFlashdata('warning', 'Deleted Article Successfully');
+			return redirect()->to(b)
 		}
+		/*$articleID = $this->request->getVar('articleID');
+		if ($articleID !== -1) {
+			$this->articleModel->articleDelete($articleID);
+
+			header('refresh: 0');
+		}
+
+		return redirect()->to(base_url('admin'));*/
 	}
 }

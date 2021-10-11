@@ -13,9 +13,7 @@
 
 				<img src="<?= base_url('images/thumbnails/' . $detail['thumbnail']); ?>" alt="<?= $detail['title_slug']; ?>" width="100%">
 
-				<!-- <p class="mt-3"> -->
 				<?= $detail['content']; ?>
-				<!-- </p> -->
 			</article>
 		</div>
 	</div>

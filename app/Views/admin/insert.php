@@ -55,10 +55,10 @@
 					<textarea class="form-control" name="content" id="content" name="content" rows="10" cols="80" placeholder="Masukkan isi konten"></textarea>
 				</div>
 
-				<!-- <div class="form-group mb-3">
+				<div class="form-group mb-3">
 					<label for="thumbnail" class="form-label">Thumbnail</label>
 					<input class="form-control" type="file" id="thumbnail" name="thumbnail">
-				</div> -->
+				</div>
 
 				<button type="submit" name="submit" class="btn btn-primary">Submit</button>
 			</form>
@@ -99,10 +99,10 @@
 					required: true,
 					minlength: 10
 				},
-				// thumbnail: {
-				// 	required: true,
-				// 	accept: "image/*"
-				// }
+				thumbnail: {
+					required: true,
+					accept: "image/*"
+				}
 			},
 
 			messages: {

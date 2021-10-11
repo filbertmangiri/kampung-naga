@@ -10,7 +10,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col">
-			<form id="editForm" action="<?= base_url('admin/edit'); ?>" method="post" enctype="multipart/form-data">
+			<form id="editForm" action="<?= base_url('admin/edit/' . $article['id']); ?>" method="post">
 				<?= csrf_field(); ?>
 
 				<?php if (!empty($session->getFlashData('article_edit_error_msg'))) : ?>
@@ -33,7 +33,7 @@
 
 				<div class="form-group mb-3">
 					<label for="title" class="form-label">Judul</label>
-					<input type="text" class="form-control" id="title" name="title" placeholder="Masukkan judul">
+					<input type="text" class="form-control" id="title" name="title" placeholder="Masukkan judul" value="<?= $article['title']; ?>">
 				</div>
 
 				<div class="form-group mb-3">
@@ -47,12 +47,12 @@
 
 				<div class="form-group mb-3">
 					<label for="author" class="form-label">Penulis</label>
-					<input type="text" class="form-control" id="author" name="author" placeholder="Masukkan nama penulis">
+					<input type="text" class="form-control" id="author" name="author" placeholder="Masukkan nama penulis" value="<?= $article['author']; ?>">
 				</div>
 
 				<div class="form-group mb-3">
 					<label for="content" class="form-label">Isi Konten</label>
-					<textarea class="form-control" name="content" id="content" name="content" rows="10" cols="80" placeholder="Masukkan isi konten"></textarea>
+					<textarea class="form-control" name="content" id="content" name="content" rows="10" cols="80" placeholder="Masukkan isi konten" value="<?= $article['content']; ?>"></textarea>
 				</div>
 
 				<!-- <div class="form-group mb-3">
@@ -77,6 +77,8 @@
 		$('#category').select2({
 			width: '100%'
 		});
+
+		$('#category').val('<?= $article['category'] ?>').trigger('change');
 
 		CKEDITOR.replace('content');
 

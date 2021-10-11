@@ -36,7 +36,7 @@ class AccountModel extends Model
 	// protected $validationMessages = [];
 	// protected $skipValidation     = false;
 
-	public function accountInsert($data)
+	public function accountInsert($post, $files)
 	{
 		$session = \Config\Services::session();
 
@@ -44,8 +44,8 @@ class AccountModel extends Model
 
 		$captcha = '';
 
-		if (isset($data['g-recaptcha-response'])) {
-			$captcha = $data['g-recaptcha-response'];
+		if (isset($post['g-recaptcha-response'])) {
+			$captcha = $post['g-recaptcha-response'];
 		}
 
 		if (!empty($captcha)) {
@@ -58,26 +58,35 @@ class AccountModel extends Model
 			if ($response['success'] === true) {
 				try {
 					$this->insert([
-						'email' => $data['email'],
-						'username' => $data['username'],
-						'password' => password_hash($data['password'], PASSWORD_DEFAULT),
-						'first_name' => $data['first_name'],
-						'last_name' => $data['last_name'],
-						'birth_date' => $data['birth_date'],
-						'gender' => $data['gender'],
-						//'profile_picture' => $data[''],
+						'email' => $post['email'],
+						'username' => $post['username'],
+						'password' => password_hash($post['password'], PASSWORD_DEFAULT),
+						'first_name' => $post['first_name'],
+						'last_name' => $post['last_name'],
+						'birth_date' => $post['birth_date'],
+						'gender' => $post['gender'],
 						'is_admin' => false
 					]);
 
+					$insertedID = $this->getInsertID();
+
+					$ekstensiGambar = explode('.', $files['profile_picture']['name']);
+					$ekstensiGambar = strtolower(end($ekstensiGambar));
+					$nama_file_baru = 'profile_id_' . $insertedID . '.' . $ekstensiGambar;
+
+					move_uploaded_file($files['profile_picture']['tmp_name'], 'images/profiles/' . $nama_file_baru);
+
+					$this->update($insertedID, ['profile_picture' => $nama_file_baru]);
+
 					$session->set('is_logged_in', true);
 
-					$session->set('email', $data['email']);
-					$session->set('username', $data['username']);
-					$session->set('first_name', $data['first_name']);
-					$session->set('last_name', $data['last_name']);
-					$session->set('birth_date', $data['birth_date']);
-					$session->set('gender', $data['gender']);
-					$session->set('profile_picture', $data['profile_picture']);
+					$session->set('id', $insertedID);
+					$session->set('email', $post['email']);
+					$session->set('username', $post['username']);
+					$session->set('first_name', $post['first_name']);
+					$session->set('last_name', $post['last_name']);
+					$session->set('birth_date', $post['birth_date']);
+					$session->set('gender', $post['gender']);
 				} catch (\Exception $e) {
 					$error_message = 'Gagal mendaftar. Silakan coba beberapa saat lagi';
 
@@ -141,6 +150,7 @@ class AccountModel extends Model
 					} else {
 						$session->set('is_logged_in', true);
 
+						$session->set('id', $accData['id']);
 						$session->set('email', $accData['email']);
 						$session->set('username', $accData['username']);
 						$session->set('first_name', $accData['first_name']);

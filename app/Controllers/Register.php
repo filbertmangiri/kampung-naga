@@ -21,22 +21,21 @@ class Register extends BaseController
 
 	public function index()
 	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$error_message = $this->accountModel->accountInsert($_POST, $_FILES);
+
+			if (empty($error_message)) {
+				return redirect()->to(base_url());
+			}
+
+			return redirect()->to(base_url('register'));
+		}
+
 		$data = [
 			'title' => 'Daftar'
 		];
 
-		return view('account/register', $data);
-	}
-
-	public function submit()
-	{
-		$error_message = $this->accountModel->accountInsert($this->request->getVar());
-
-		if (empty($error_message)) {
-			return redirect()->to(base_url());
-		}
-
-		return redirect()->to(base_url('register'));
+		return view('account/register/index', $data);
 	}
 
 	public function emailCheck()

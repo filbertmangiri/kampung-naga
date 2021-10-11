@@ -31,13 +31,34 @@
 							<td><?= $key['category']; ?></td>
 							<td><?= $key['author']; ?></td>
 							<td>
-								<a href="<?= base_url('admin/edit/' . $key['title_slug']); ?>"><i class="fas fa-edit"></i></a>
-								<a href="<?= base_url('admin/delete/' . $key['title_slug']); ?>"><i class="fas fa-trash"></i></a>
+								<a href="<?= base_url('admin/edit/' . $key['id']); ?>"><i class="fas fa-edit"></i></a>
+								<button onclick="articleDelete(<?= $key['id']; ?>);" class="fas fa-trash"></button>
 							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+		</div>
+	</div>
+</div>
+<?= $this->endSection(); ?>
+
+<?= $this->section('modals'); ?>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Hapus Artikel</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Apakah anda yakin ingin menghapus artikel dengan judul : <br>
+				<div id="articleTitle"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -49,7 +70,28 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('#deleteModal').modal('hide');
+
 		$('#articlesTable').DataTable();
 	});
+
+	function articleDelete(id) {
+		$('#deleteButton').attr('onclick', '_articleDelete(' + id + ')');
+		$('#deleteModal').modal('show');
+	}
+
+	function _articleDelete(id) {
+		if (id < 1) return;
+
+		$.ajax({
+			url: '<?= base_url('admin/delete') ?>',
+			type: 'post',
+			data: {
+				'articleID': id
+			}
+		});
+
+		$('#deleteModal').modal('hide');
+	}
 </script>
 <?= $this->endSection(); ?>
