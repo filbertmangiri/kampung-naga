@@ -64,8 +64,7 @@ class AccountModel extends Model
 						'first_name' => $post['first_name'],
 						'last_name' => $post['last_name'],
 						'birth_date' => $post['birth_date'],
-						'gender' => $post['gender'],
-						'is_admin' => false
+						'gender' => $post['gender']
 					]);
 
 					$insertedID = $this->getInsertID();
@@ -120,7 +119,7 @@ class AccountModel extends Model
 		return false;
 	}
 
-	public function accountGet($data)
+	public function accountCheck($data)
 	{
 		$session = \Config\Services::session();
 
@@ -174,5 +173,14 @@ class AccountModel extends Model
 		$session->setFlashData('login_error_msg', $error_message);
 
 		return $error_message;
+	}
+
+	public function accountGet($accountID = -1)
+	{
+		if ($accountID === -1) {
+			return $this->findAll();
+		}
+
+		return $this->where('id', $accountID)->first();
 	}
 }

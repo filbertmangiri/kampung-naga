@@ -120,6 +120,7 @@ class ArticleModel extends Model
 
 	public function articleDelete($articleID)
 	{
+		// return $this->db->table($this->$table)->delete(['']);
 		try {
 			$this->delete($articleID);
 		} catch (\Exception $e) {

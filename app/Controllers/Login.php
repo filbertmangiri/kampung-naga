@@ -30,7 +30,7 @@ class Login extends BaseController
 
 	public function submit()
 	{
-		$error_message = $this->accountModel->accountGet($this->request->getVar());
+		$error_message = $this->accountModel->accountCheck($this->request->getVar());
 
 		if (empty($error_message)) {
 			return redirect()->to(base_url());

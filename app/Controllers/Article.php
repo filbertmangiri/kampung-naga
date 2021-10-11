@@ -12,10 +12,12 @@ use App\Models\Article\CommentLikeModel;
 class Article extends BaseController
 {
 	protected $articleModel;
+	protected $commentModel;
 
 	public function __construct()
 	{
 		$this->articleModel = new ArticleModel();
+		$this->commentModel = new CommentModel();
 	}
 
 	public function __destruct()
@@ -41,7 +43,17 @@ class Article extends BaseController
 
 		$data['detail'] = $this->articleModel->articleGet($titleSlug);
 		$data['title'] = $data['detail']['title'];
+		$data['comments'] = $this->commentModel->commentGet($data['detail']['id']);
 
 		return view('articles/detail', $data);
+	}
+
+	public function addComment($articleID = -1)
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $articleID === -1) {
+			return redirect()->to(base_url());
+		}
+
+		$this->commentModel->commentAdd(\Config\Services::session()->get('id'), $articleID, $this->request->getVar('comment_text'));
 	}
 }
