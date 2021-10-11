@@ -4,7 +4,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col">
-			<h1>Ini about</h1>
+			<h1>Kampung Naga News</h1>
+			<p>Kampung Naga selalu membawakan berita-berita terbaru</p>
 		</div>
 	</div>
 </div>

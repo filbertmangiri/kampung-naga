@@ -37,9 +37,10 @@ $routes->get('/about', 'Pages::about');
 // $routes->get('/article/category/(:segment)', 'Pages');
 $routes->get('/article/(:segment)', 'Article::detail/$1');
 
-$routes->get('/login', 'Account\Login');
-$routes->get('/register', 'Account\Register');
-$routes->get('/logout', 'Account\Logout');
+
+// $routes->get('/login', 'Account\Login');
+// $routes->get('/register', 'Account\Register');
+// $routes->get('/logout', 'Account\Logout');
 
 /*
  * --------------------------------------------------------------------

@@ -33,8 +33,12 @@ class Article extends BaseController
 		return view('articles/index', $data);
 	}
 
-	public function detail($titleSlug)
+	public function detail($titleSlug = '')
 	{
+		if (empty($titleSlug)) {
+			return redirect()->to(base_url());
+		}
+
 		$data['detail'] = $this->articleModel->articleGet($titleSlug);
 		$data['title'] = $data['detail']['title'];
 

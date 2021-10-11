@@ -1,6 +1,6 @@
 <?php $session = \Config\Services::session(); ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
 	<div class="container">
 		<a class="navbar-brand" href="<?= base_url(); ?>"><?= NAVBAR_BRAND; ?></a>
 
@@ -20,6 +20,11 @@
 
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<?php if ($session->get('is_logged_in') === true) : ?>
+					<?php if ($session->get('is_admin') === true) : ?>
+						<li class="nav-item">
+							<a class="nav-link" href="<?= base_url('admin'); ?>">Admin</a>
+						</li>
+					<?php endif; ?>
 					<li class="nav-item">
 						<a class="nav-link" href="<?= base_url('logout'); ?>">Logout</a>
 					</li>

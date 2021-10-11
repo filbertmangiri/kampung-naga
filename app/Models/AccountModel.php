@@ -22,7 +22,6 @@ class AccountModel extends Model
 		'birth_date',
 		'gender',
 		'profile_picture',
-		'last_login_at',
 		'is_admin'
 	];
 
@@ -65,13 +64,20 @@ class AccountModel extends Model
 						'first_name' => $data['first_name'],
 						'last_name' => $data['last_name'],
 						'birth_date' => $data['birth_date'],
-						'gender' => $data['gender']
+						'gender' => $data['gender'],
+						//'profile_picture' => $data[''],
+						'is_admin' => false
 					]);
 
 					$session->set('is_logged_in', true);
 
+					$session->set('email', $data['email']);
 					$session->set('username', $data['username']);
-					$session->set('full_name', $data['first_name'] . $data['last_name']);
+					$session->set('first_name', $data['first_name']);
+					$session->set('last_name', $data['last_name']);
+					$session->set('birth_date', $data['birth_date']);
+					$session->set('gender', $data['gender']);
+					$session->set('profile_picture', $data['profile_picture']);
 				} catch (\Exception $e) {
 					$error_message = 'Gagal mendaftar. Silakan coba beberapa saat lagi';
 
@@ -135,8 +141,15 @@ class AccountModel extends Model
 					} else {
 						$session->set('is_logged_in', true);
 
+						$session->set('email', $accData['email']);
 						$session->set('username', $accData['username']);
-						$session->set('full_name', $accData['first_name'] . $accData['last_name']);
+						$session->set('first_name', $accData['first_name']);
+						$session->set('last_name', $accData['last_name']);
+						$session->set('birth_date', $accData['birth_date']);
+						$session->set('gender', $accData['gender']);
+
+						if ($accData['is_admin'])
+							$session->set('is_admin', true);
 					}
 				} catch (\Exception $e) {
 					$error_message = 'Gagal masuk. Silakan coba beberapa saat lagi';

@@ -18,8 +18,8 @@ class ArticleModel extends Model
 		'title_slug',
 		'category',
 		'category_slug',
-		'author_id',
-		'thumbnail',
+		// 'thumbnail',
+		'author',
 		'content'
 	];
 
@@ -41,5 +41,57 @@ class ArticleModel extends Model
 		}
 
 		return $this->where('title_slug', $titleSlug)->first();
+	}
+
+	public function articleInsert($data)
+	{
+		$error_message = '';
+
+		try {
+			$this->insert([
+				'title' => $data['title'],
+				'title_slug' => url_title($data['title'], '-', true),
+				'category' => $data['category'],
+				'category_slug' => url_title($data['category'], '-', true),
+				'author' => $data['author'],
+				'content' => $data['content'],
+			]);
+		} catch (\Exception $e) {
+			$error_message = 'Gagal membuat artikel. Silakan coba beberapa saat lagi';
+
+			if ($e->getCode() == '1062') {
+				$error_message = 'Judul artikel telah digunakan';
+			}
+		}
+
+		\Config\Services::session()->setFlashData('article_insert_error_msg', $error_message);
+
+		return $error_message;
+	}
+
+	public function articleEdit($data)
+	{
+		$error_message = '';
+
+		try {
+			$this->insert([
+				'title' => $data['title'],
+				'title_slug' => url_title($data['title'], '-', true),
+				'category' => $data['category'],
+				'category_slug' => url_title($data['category'], '-', true),
+				'author' => $data['author'],
+				'content' => $data['content'],
+			]);
+		} catch (\Exception $e) {
+			$error_message = 'Gagal membuat artikel. Silakan coba beberapa saat lagi';
+
+			if ($e->getCode() == '1062') {
+				$error_message = 'Judul artikel telah digunakan';
+			}
+		}
+
+		\Config\Services::session()->setFlashData('article_insert_error_msg', $error_message);
+
+		return $error_message;
 	}
 }
